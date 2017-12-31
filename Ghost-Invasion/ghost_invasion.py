@@ -1,6 +1,6 @@
 
 import pygame
-
+from pygame.sprite import Group
 from settings import Settings
 from gun import Gun
 
@@ -18,19 +18,21 @@ def run_game():
     # gun
     gun = Gun(screen)
 
-
+    # 子弹编组
+    bullets = Group()
     # 游戏主循环
     while True:
         #监听键盘和鼠标事件
-        gf.check_events()
+        gf.check_events(game_sets, screen, gun, bullets)
+        # 更新炮的位置
+        gun.update(game_sets, screen)
 
+        # 更新子弹的位置
+        bullets.update()
 
-        screen.fill(game_sets.bg_color)    # 每次循环用背景色填充屏幕
-        # 在填充背景后绘制gun,确保它出现在背景前面
-        gun.blitme()
+        # update screen
+        gf.update_screen(game_sets, screen, gun, bullets)
 
-
-        pygame.display.flip()    # 刷新屏幕，更新元素的位置
 
 run_game()
 
