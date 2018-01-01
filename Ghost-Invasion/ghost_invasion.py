@@ -20,6 +20,9 @@ def run_game():
 
     # 子弹编组
     bullets = Group()
+    ghosts = Group()
+    gf.create_fleet(game_sets, screen, ghosts, gun)
+
     # 游戏主循环
     while True:
         #监听键盘和鼠标事件
@@ -27,11 +30,14 @@ def run_game():
         # 更新炮的位置
         gun.update(game_sets, screen)
 
-        # 更新子弹的位置
-        bullets.update()
 
+        # 更新子弹的位置
+        # 删除消失的子弹
+        gf.check_bullets(bullets, ghosts, screen, gun, game_sets)
+
+        gf.update_ghost(game_sets,ghosts)
         # update screen
-        gf.update_screen(game_sets, screen, gun, bullets)
+        gf.update_screen(game_sets, screen, gun, bullets, ghosts)
 
 
 run_game()
